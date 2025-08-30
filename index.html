@@ -1554,9 +1554,8 @@ function addCustomBurgerToOrder(baseBurgerItem) {
                     finalTotal += quantity * ingredient.price;
                 }
             }
-        });
-    })
-);
+        };
+    });
 
     const burgerItem = {
         id: Date.now() + Math.random(),
