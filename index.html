@@ -3336,10 +3336,139 @@
 
         });
     </script>
-
-    <!-- Código JavaScript corrigido para montagem de hambúrguer e adicionais -->
-    <script src="/mnt/data/codigo_corrigido.js"></script>
-    </body>
-    
+</body>
 </html>
 
+
+    <!-- Código JavaScript corrigido para montagem de hambúrguer e adicionais -->
+    <script src="js/codigo_corrigido.js"></script>
+
+    <!-- Revisão do evento de instalação do PWA para garantir a exibição do banner -->
+    <script>
+        window.addEventListener('beforeinstallprompt', (event) => {
+            // Previne o comportamento padrão
+            event.preventDefault();
+            // Armazena o evento para acioná-lo mais tarde
+            let deferredPrompt = event;
+
+            // Mostra o banner de instalação no momento apropriado
+            const installButton = document.querySelector('#installButton');
+            installButton.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou a instalação do PWA');
+                    } else {
+                        console.log('Usuário rejeitou a instalação do PWA');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Código JavaScript de manipulação de pedidos com correção do erro de 'undefined' -->
+    <script>
+        // Função de adicionar hambúrguer ao pedido
+        function addCustomBurgerToOrder() {
+            const burgerOrder = {
+                burgerType: document.querySelector('#burgerType').value,
+                toppings: getSelectedToppings(),
+                sides: getSelectedSides()
+            };
+
+            if (burgerOrder.burgerType && burgerOrder.toppings.length > 0) {
+                // Verificando se o pedido de hambúrguer é válido
+                const orderItems = getOrderItems() || [];  // Garantindo que o pedido não seja undefined
+                orderItems.push(burgerOrder);
+
+                // Atualizar a interface
+                updateOrderSummary(orderItems);
+
+                // Limpar o formulário do hambúrguer
+                clearBurgerForm();
+            } else {
+                console.error('Erro: O hambúrguer selecionado está incompleto!');
+            }
+        }
+
+        // Função para obter os ingredientes selecionados
+        function getSelectedToppings() {
+            const toppings = [];
+            document.querySelectorAll('.topping:checked').forEach(topping => {
+                toppings.push(topping.value);
+            });
+            return toppings;
+        }
+
+        // Função para obter os acompanhamentos selecionados
+        function getSelectedSides() {
+            const sides = [];
+            document.querySelectorAll('.side:checked').forEach(side => {
+                sides.push(side.value);
+            });
+            return sides;
+        }
+
+        // Função para obter itens do pedido
+        function getOrderItems() {
+            // Verificando se o pedido já foi inicializado corretamente
+            let orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
+            return orderItems;
+        }
+
+        // Função para atualizar a visualização do resumo do pedido
+        function updateOrderSummary(orderItems) {
+            // Atualizando o resumo do pedido na interface
+            const orderSummary = document.querySelector('#orderSummary');
+            orderSummary.innerHTML = '';  // Limpar conteúdo atual
+            orderItems.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Hambúrguer: ${item.burgerType}, Ingredientes: ${item.toppings.join(', ')}, Acompanhamentos: ${item.sides.join(', ')}`;
+                orderSummary.appendChild(listItem);
+            });
+
+            // Armazenar o pedido atualizado no localStorage
+            localStorage.setItem('orderItems', JSON.stringify(orderItems));
+        }
+
+        // Função para limpar o formulário de montagem de hambúrguer
+        function clearBurgerForm() {
+            document.querySelector('#burgerType').value = '';
+            document.querySelectorAll('.topping').forEach(topping => topping.checked = false);
+            document.querySelectorAll('.side').forEach(side => side.checked = false);
+        }
+
+        // Evento para adicionar hambúrguer ao pedido ao clicar no botão
+        const addCustomBurgerBtn = document.querySelector('#addCustomBurgerBtn');
+        addCustomBurgerBtn.addEventListener('click', addCustomBurgerToOrder);
+
+        // Função de adicionar adicionais ao pedido
+        function addAdditivesToOrder() {
+            const additives = getSelectedAdditives();
+            if (additives.length > 0) {
+                const orderItems = getOrderItems();
+                orderItems.push({ additives });
+
+                // Atualizando o resumo do pedido
+                updateOrderSummary(orderItems);
+            }
+        }
+
+        // Função para obter adicionais selecionados
+        function getSelectedAdditives() {
+            const additives = [];
+            document.querySelectorAll('.additive:checked').forEach(additive => {
+                additives.push(additive.value);
+            });
+            return additives;
+        }
+
+        // Inicializando a aplicação
+        document.addEventListener('DOMContentLoaded', () => {
+            // Restabelece o estado do pedido se já houver itens no localStorage
+            const orderItems = getOrderItems();
+            updateOrderSummary(orderItems);
+        });
+    </script>
+    </body>
+</html>
