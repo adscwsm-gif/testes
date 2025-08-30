@@ -1,16 +1,17 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sâmia - Cardápio Online</title>
-    <meta name="theme-color" content="#f8f4e9"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="https://raw.githubusercontent.com/WillianSoares93/cardapio_samia_PDV/refs/heads/main/logo.png" type="image/png">
-    <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Sâmia - Cardápio Online</title>
+<meta content="#f8f4e9" name="theme-color">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://raw.githubusercontent.com/WillianSoares93/cardapio_samia_PDV/refs/heads/main/logo.png" rel="icon" type="image/png"/>
+<link href="manifest.json" rel="manifest"/>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         html {
             scroll-behavior: smooth;
@@ -514,393 +515,355 @@
             font-weight: bold;
         }
     </style>
-</head>
-<body>
-    <header class="header-bg text-white py-16 px-4 text-center">
-        <div class="max-w-4xl mx-auto">
-            <img src="https://raw.githubusercontent.com/WillianSoares93/cardapio_samia_PDV/refs/heads/main/logo.png" alt="Logotipo Sâmia" class="h-64 mx-auto mb-4 object-contain">
-            <p class="text-2xl mb-8">Pizzaria, Pastelaria e Hamburgueria</p>
-            <div class="flex justify-center space-x-4">
-                <a href="#menu" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition duration-300">
+</meta></head>
+<body><p>Atenção: Não é recomendado usar o CDN do Tailwind CSS em produção. Instale o Tailwind como um plugin PostCSS ou use a CLI do Tailwind.</p>
+<header class="header-bg text-white py-16 px-4 text-center">
+<div class="max-w-4xl mx-auto">
+<img alt="Logotipo Sâmia" class="h-64 mx-auto mb-4 object-contain" src="https://raw.githubusercontent.com/WillianSoares93/cardapio_samia_PDV/refs/heads/main/logo.png"/>
+<p class="text-2xl mb-8">Pizzaria, Pastelaria e Hamburgueria</p>
+<div class="flex justify-center space-x-4">
+<a class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition duration-300" href="#menu">
                     Ver Cardápio
                 </a>
-            </div>
+</div>
+</div>
+</header>
+<section class="py-8 px-4 max-w-6xl mx-auto" id="menu">
+<div class="text-center mb-8">
+<h2 class="text-4xl font-bold text-gray-800 mb-4">Nosso Cardápio</h2>
+<p class="text-gray-600 text-lg mx-auto">Bateu a fome? A Samia resolve!</p>
+</div>
+<div class="text-gray-500 text-sm text-center mb-4 lg:hidden">
+<i class="fas fa-hand-point-right mr-1"></i> Arraste para o lado para ver outras opções
         </div>
-    </header>
-
-    <section id="menu" class="py-8 px-4 max-w-6xl mx-auto">
-        <div class="text-center mb-8">
-            <h2 class="text-4xl font-bold text-gray-800 mb-4">Nosso Cardápio</h2>
-            <p class="text-gray-600 text-lg mx-auto">Bateu a fome? A Samia resolve!</p>
-        </div>
-
-        <div class="text-gray-500 text-sm text-center mb-4 lg:hidden">
-            <i class="fas fa-hand-point-right mr-1"></i> Arraste para o lado para ver outras opções
-        </div>
-
-        <div class="category-bar-mobile-sticky lg:static lg:p-0">
-            <div id="category-buttons-container" class="flex space-x-2 mb-6 overflow-x-auto pb-2 
-                        lg:flex-row lg:space-x-2 lg:mb-6 lg:overflow-visible lg:pb-0">
-            </div>
-        </div>
-        
-        <div id="pizza-list">
-            <div id="dynamic-pizza-sections"></div>
-        </div>
-    </section>
-
-    <button id="cart-button" class="fixed bottom-4 right-4 bg-red-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg z-40">
-        <i class="fas fa-shopping-cart text-2xl"></i>
-        <span id="cartCount" class="absolute -top-1 -right-1 bg-yellow-400 text-red-700 text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center border-2 border-white hidden">0</span>
-    </button>
-    
-    <button id="promotion-button">
-        <i class="fas fa-tags"></i>
-        <span>Promoções</span>
-    </button>
-
-    <div id="orderSidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
-        <div class="p-6">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-800">Seu Pedido</h3>
-                <button id="close-sidebar-btn" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <div id="orderItems" class="mb-6">
-                <p class="text-gray-500 text-center py-8" id="emptyOrderMessage">Seu pedido está vazio</p>
-            </div>
-            
-            <div class="border-t border-gray-200 pt-4 mb-6">
-                <div class="flex justify-between mb-2">
-                    <span class="text-gray-600">Subtotal:</span>
-                    <span id="subtotal" class="font-bold">R$ 0,00</span>
-                </div>
-
-                <div id="discount-section" class="flex justify-between items-center mb-2 hidden text-red-600">
-                    <span class="text-gray-600">Desconto: <span id="discount-percentage-display"></span></span>
-                    <span id="discount-value-display" class="font-bold">- R$ 0,00</span>
-                </div>
-                
-                <div class="flex items-center mb-2 pt-2 border-t border-gray-100">
-                    <input type="checkbox" id="pickupCheckbox" class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500">
-                    <label for="pickupCheckbox" class="ml-2 block text-sm text-gray-900">Irei fazer a Retirada</label>
-                </div>
-
-                <div id="deliveryFeeSection" class="flex justify-between mb-2">
-                    <span class="text-gray-600">Taxa de entrega:</span>
-                    <div id="deliveryFeeContainer" class="flex items-center">
-                        <span id="deliveryFeeDisplay" class="font-bold"></span>
-                        <button id="informAddressBtn" class="ml-2 px-3 py-1 bg-red-600 text-white rounded-md text-sm hover:bg-red-700 transition hidden">
+<div class="category-bar-mobile-sticky lg:static lg:p-0">
+<div class="flex space-x-2 mb-6 overflow-x-auto pb-2 lg:flex-row lg:space-x-2 lg:mb-6 lg:overflow-visible lg:pb-0" id="category-buttons-container">
+</div>
+</div>
+<div id="pizza-list">
+<div id="dynamic-pizza-sections"></div>
+</div>
+</section>
+<button class="fixed bottom-4 right-4 bg-red-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg z-40" id="cart-button">
+<i class="fas fa-shopping-cart text-2xl"></i>
+<span class="absolute -top-1 -right-1 bg-yellow-400 text-red-700 text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center border-2 border-white hidden" id="cartCount">0</span>
+</button>
+<button id="promotion-button">
+<i class="fas fa-tags"></i>
+<span>Promoções</span>
+</button>
+<div class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto" id="orderSidebar">
+<div class="p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-bold text-gray-800">Seu Pedido</h3>
+<button class="text-gray-500 hover:text-gray-700" id="close-sidebar-btn">
+<i class="fas fa-times text-xl"></i>
+</button>
+</div>
+<div class="mb-6" id="orderItems">
+<p class="text-gray-500 text-center py-8" id="emptyOrderMessage">Seu pedido está vazio</p>
+</div>
+<div class="border-t border-gray-200 pt-4 mb-6">
+<div class="flex justify-between mb-2">
+<span class="text-gray-600">Subtotal:</span>
+<span class="font-bold" id="subtotal">R$ 0,00</span>
+</div>
+<div class="flex justify-between items-center mb-2 hidden text-red-600" id="discount-section">
+<span class="text-gray-600">Desconto: <span id="discount-percentage-display"></span></span>
+<span class="font-bold" id="discount-value-display">- R$ 0,00</span>
+</div>
+<div class="flex items-center mb-2 pt-2 border-t border-gray-100">
+<input class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500" id="pickupCheckbox" type="checkbox"/>
+<label class="ml-2 block text-sm text-gray-900" for="pickupCheckbox">Irei fazer a Retirada</label>
+</div>
+<div class="flex justify-between mb-2" id="deliveryFeeSection">
+<span class="text-gray-600">Taxa de entrega:</span>
+<div class="flex items-center" id="deliveryFeeContainer">
+<span class="font-bold" id="deliveryFeeDisplay"></span>
+<button class="ml-2 px-3 py-1 bg-red-600 text-white rounded-md text-sm hover:bg-red-700 transition hidden" id="informAddressBtn">
                             Informar Endereço
                         </button>
-                        <button id="editDeliveryAddressBtn" class="ml-2 text-blue-500 hover:text-blue-700 text-sm hidden">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="flex justify-between text-lg font-bold">
-                    <span>Total:</span>
-                    <span id="total">R$ 0,00</span>
-                </div>
-
-                <div class="mt-4">
-                    <label for="order-observation" class="block text-sm font-medium text-gray-700">Observações:</label>
-                    <textarea id="order-observation" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm" placeholder="Ex: Tirar a cebola, ponto da carne, etc."></textarea>
-                </div>
-            </div>
-
-            <div id="address-summary-section" class="border border-gray-200 rounded-lg p-4 mb-6 bg-gray-50 hidden">
-                <h4 class="font-bold text-gray-800 mb-2">Detalhes da Entrega:</h4>
-                <p id="client-name-display" class="text-gray-700 text-sm"></p>
-                <p id="contact-display" class="text-gray-700 text-sm"></p>
-                <p id="address-display" class="text-gray-700 text-sm"></p>
-                <p id="neighborhood-display" class="text-gray-600 text-sm"></p>
-                <p id="reference-display" class="text-gray-600 text-sm italic"></p>
-                <button id="editAddressBtn" class="mt-3 px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition">
+<button class="ml-2 text-blue-500 hover:text-blue-700 text-sm hidden" id="editDeliveryAddressBtn">
+<i class="fas fa-edit"></i>
+</button>
+</div>
+</div>
+<div class="flex justify-between text-lg font-bold">
+<span>Total:</span>
+<span id="total">R$ 0,00</span>
+</div>
+<div class="mt-4">
+<label class="block text-sm font-medium text-gray-700" for="order-observation">Observações:</label>
+<textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm" id="order-observation" placeholder="Ex: Tirar a cebola, ponto da carne, etc." rows="3"></textarea>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4 mb-6 bg-gray-50 hidden" id="address-summary-section">
+<h4 class="font-bold text-gray-800 mb-2">Detalhes da Entrega:</h4>
+<p class="text-gray-700 text-sm" id="client-name-display"></p>
+<p class="text-gray-700 text-sm" id="contact-display"></p>
+<p class="text-gray-700 text-sm" id="address-display"></p>
+<p class="text-gray-600 text-sm" id="neighborhood-display"></p>
+<p class="text-gray-600 text-sm italic" id="reference-display"></p>
+<button class="mt-3 px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition" id="editAddressBtn">
                     Editar Detalhes
                 </button>
-            </div>
-
-            <button id="back-to-menu-btn" class="btn-add-more w-full py-3 text-white font-bold rounded-full mb-4">
+</div>
+<button class="btn-add-more w-full py-3 text-white font-bold rounded-full mb-4" id="back-to-menu-btn">
                 Adicionar mais
             </button>
-
-            <button id="checkoutButton" class="btn-order w-full py-3 text-white font-bold rounded-full mb-4">
+<button class="btn-order w-full py-3 text-white font-bold rounded-full mb-4" id="checkoutButton">
                 Finalizar Pedido
             </button>
-            
-            </div>
-    </div>
-
-    <div id="pizza-option-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="close-pizza-option-modal">&times;</span>
-            <h3 class="text-xl font-bold text-gray-800 mb-4" id="modal-pizza-name"></h3>
-            <p class="text-gray-600 mb-6" id="modal-pizza-description"></p>
-            <div id="pizza-size-options" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            </div>
-        </div>
-    </div>
-    
-    <div id="burger-builder-modal" class="modal">
-        <div class="modal-content builder-modal">
-            <span class="close-button" id="close-burger-builder-modal">&times;</span>
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Monte Seu Hambúrguer</h3>
-            
-            <div id="burger-ingredients-container" class="mb-4">
-                </div>
-            
-            <div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg mt-4">
-                <span class="text-lg font-bold">Total:</span>
-                <span id="burger-total-price" class="text-2xl font-bold text-red-600">R$ 0,00</span>
-            </div>
-            
-            <button id="add-custom-burger-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition w-full">
+</div>
+</div>
+<div class="modal" id="pizza-option-modal">
+<div class="modal-content">
+<span class="close-button" id="close-pizza-option-modal">×</span>
+<h3 class="text-xl font-bold text-gray-800 mb-4" id="modal-pizza-name"></h3>
+<p class="text-gray-600 mb-6" id="modal-pizza-description"></p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="pizza-size-options">
+</div>
+</div>
+</div>
+<div class="modal" id="burger-builder-modal">
+<div class="modal-content builder-modal">
+<span class="close-button" id="close-burger-builder-modal">×</span>
+<h3 class="text-xl font-bold text-gray-800 mb-4">Monte Seu Hambúrguer</h3>
+<div class="mb-4" id="burger-ingredients-container">
+</div>
+<div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg mt-4">
+<span class="text-lg font-bold">Total:</span>
+<span class="text-2xl font-bold text-red-600" id="burger-total-price">R$ 0,00</span>
+</div>
+<button class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition w-full" id="add-custom-burger-btn">
                 Adicionar ao Pedido
             </button>
-        </div>
-    </div>
-
-    <div id="message-modal" class="message-modal">
-        <div class="modal-content">
-            <span class="close-button" id="close-message-modal">&times;</span>
-            <p class="text-lg font-semibold text-gray-800 mb-4" id="message-modal-text"></p>
-            <button id="ok-message-modal" class="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">OK</button>
-        </div>
-    </div>
-
-    <div id="promotion-popup" class="promotion-popup">
-        <div class="modal-content">
-            <span class="close-button" id="close-promotion-popup">&times;</span>
-            <h3>Promoções Especiais!</h3>
-            <p>Confira as nossas ofertas exclusivas e não perca tempo!</p>
-            <div id="promotions-list">
-                </div>
-            <button id="close-promotion-popup-btn" class="px-6 py-3 mt-6 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition w-full">
+</div>
+</div>
+<div class="message-modal" id="message-modal">
+<div class="modal-content">
+<span class="close-button" id="close-message-modal">×</span>
+<p class="text-lg font-semibold text-gray-800 mb-4" id="message-modal-text"></p>
+<button class="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition" id="ok-message-modal">OK</button>
+</div>
+</div>
+<div class="promotion-popup" id="promotion-popup">
+<div class="modal-content">
+<span class="close-button" id="close-promotion-popup">×</span>
+<h3>Promoções Especiais!</h3>
+<p>Confira as nossas ofertas exclusivas e não perca tempo!</p>
+<div id="promotions-list">
+</div>
+<button class="px-6 py-3 mt-6 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition w-full" id="close-promotion-popup-btn">
                 Fechar Promoções
             </button>
-        </div>
-    </div>
-
-    <div id="drink-suggestion-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="close-drink-suggestion-modal">&times;</span>
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Que tal uma bebida para acompanhar?</h3>
-            <p class="text-gray-600 mb-6">Adicione uma bebida para deixar seu pedido ainda mais completo!</p>
-            <div id="suggested-drinks-list" class="mb-6 max-h-60 overflow-y-auto">
-            </div>
-            <button id="proceed-without-drinks" class="btn-order w-full py-3 text-white font-bold rounded-full">
+</div>
+</div>
+<div class="modal" id="drink-suggestion-modal">
+<div class="modal-content">
+<span class="close-button" id="close-drink-suggestion-modal">×</span>
+<h3 class="text-xl font-bold text-gray-800 mb-4">Que tal uma bebida para acompanhar?</h3>
+<p class="text-gray-600 mb-6">Adicione uma bebida para deixar seu pedido ainda mais completo!</p>
+<div class="mb-6 max-h-60 overflow-y-auto" id="suggested-drinks-list">
+</div>
+<button class="btn-order w-full py-3 text-white font-bold rounded-full" id="proceed-without-drinks">
                 Finalizar sem Bebidas
             </button>
-        </div>
-    </div>
-
-    <div id="confirm-no-drink-modal" class="message-modal">
-        <div class="modal-content">
-            <span class="close-button" id="close-confirm-no-drink-modal">&times;</span>
-            <p class="text-lg font-semibold text-gray-800 mb-4">Tem certeza?</p>
-            <p class="text-gray-600 mb-6">Deseja realmente finalizar o pedido sem adicionar uma bebida?</p>
-            <div class="flex justify-center gap-4">
-                <button id="confirm-no-drink-no-btn" class="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg font-bold hover:bg-gray-400 transition">Não, voltar</button>
-                <button id="confirm-no-drink-yes" class="px-6 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">Sim, finalizar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="install-prompt-modal" class="message-modal">
-        <div class="modal-content">
-            <span class="close-button" id="close-install-prompt-modal">&times;</span>
-            <p class="text-lg font-semibold text-gray-800 mb-4">Instale o App Sâmia Cardápio para uma experiência completa!</p>
-            <p class="text-gray-600 mb-6">Adicione nosso aplicativo à sua tela inicial para acesso rápido e fácil.</p>
-            <button id="install-app-button" class="px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition w-full">
+</div>
+</div>
+<div class="message-modal" id="confirm-no-drink-modal">
+<div class="modal-content">
+<span class="close-button" id="close-confirm-no-drink-modal">×</span>
+<p class="text-lg font-semibold text-gray-800 mb-4">Tem certeza?</p>
+<p class="text-gray-600 mb-6">Deseja realmente finalizar o pedido sem adicionar uma bebida?</p>
+<div class="flex justify-center gap-4">
+<button class="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg font-bold hover:bg-gray-400 transition" id="confirm-no-drink-no-btn">Não, voltar</button>
+<button class="px-6 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition" id="confirm-no-drink-yes">Sim, finalizar</button>
+</div>
+</div>
+</div>
+<div class="message-modal" id="install-prompt-modal">
+<div class="modal-content">
+<span class="close-button" id="close-install-prompt-modal">×</span>
+<p class="text-lg font-semibold text-gray-800 mb-4">Instale o App Sâmia Cardápio para uma experiência completa!</p>
+<p class="text-gray-600 mb-6">Adicione nosso aplicativo à sua tela inicial para acesso rápido e fácil.</p>
+<button class="px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition w-full" id="install-app-button">
                 Instalar Aplicativo
             </button>
-        </div>
-    </div>
-
-    <div id="payment-method-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="close-payment-method-modal">&times;</span>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Escolha a Forma de Pagamento</h3>
-            <p class="text-gray-600 text-lg mb-4">Total Pedido: <span id="payment-modal-total" class="font-bold text-red-600">R$ 0,00</span></p>
-
-            <div id="payment-options-container" class="flex flex-col gap-3 mb-6">
-                <label class="payment-option" data-method="Dinheiro">
-                    <input type="radio" name="paymentMethod" value="Dinheiro" class="form-radio">
-                    <i class="fas fa-money-bill-wave icon"></i>
-                    <div class="text-content">
-                        <h4>Dinheiro</h4>
-                        <p></p> </div>
-                </label>
-                <label class="payment-option" data-method="Cartão de Crédito/Débito">
-                    <input type="radio" name="paymentMethod" value="Cartão de Crédito/Débito" class="form-radio">
-                    <i class="fas fa-credit-card icon"></i>
-                    <div class="text-content">
-                        <h4>Cartão de Crédito/Débito</h4>
-                        <p></p> </div>
-                </label>
-                <label class="payment-option items-start" data-method="Pix">
-                    <div class="flex flex-col w-full">
-                        <div class="flex items-center">
-                            <input type="radio" name="paymentMethod" value="Pix" class="form-radio">
-                            <i class="fas fa-qrcode icon"></i>
-                            <div class="text-content">
-                                <h4>Pix</h4>
-                            </div>
-                        </div>
-                        <div id="pix-details-container" class="hidden mt-2 w-full flex flex-col items-center">
-                            <p class="text-xs text-black mb-1">Toque para copiar a chave pix</p>
-                            <div id="pix-key-container" class="p-2 bg-gray-100 rounded-md text-sm w-full flex items-center justify-between cursor-pointer">
-                                <span id="pix-key-display" class="font-mono text-gray-700 text-sm pix-code-container"></span>
-                                <button id="copy-pix-btn" class="ml-2 text-gray-500 hover:text-gray-700" title="Copiar Chave Pix">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                                <span id="copy-feedback" class="text-green-600 text-xs ml-2 hidden">Copiado!</span>
-                            </div>
-                            <p class="text-xs text-black mt-4 mb-1">QR Code PIX</p>
-                            <div id="qrcode-container"></div>
-                        </div>
-                    </div>
-                </label>
-            </div>
-
-            <div id="troco-input-container" class="hidden mt-4 mb-6 p-4 border border-gray-300 rounded-lg bg-gray-50">
-                <label for="trocoPara" class="block text-gray-700 text-sm font-bold mb-2">
+</div>
+</div>
+<div class="modal" id="payment-method-modal">
+<div class="modal-content">
+<span class="close-button" id="close-payment-method-modal">×</span>
+<h3 class="text-xl font-bold text-gray-800 mb-2">Escolha a Forma de Pagamento</h3>
+<p class="text-gray-600 text-lg mb-4">Total Pedido: <span class="font-bold text-red-600" id="payment-modal-total">R$ 0,00</span></p>
+<div class="flex flex-col gap-3 mb-6" id="payment-options-container">
+<label class="payment-option" data-method="Dinheiro">
+<input class="form-radio" name="paymentMethod" type="radio" value="Dinheiro"/>
+<i class="fas fa-money-bill-wave icon"></i>
+<div class="text-content">
+<h4>Dinheiro</h4>
+<p></p> </div>
+</label>
+<label class="payment-option" data-method="Cartão de Crédito/Débito">
+<input class="form-radio" name="paymentMethod" type="radio" value="Cartão de Crédito/Débito"/>
+<i class="fas fa-credit-card icon"></i>
+<div class="text-content">
+<h4>Cartão de Crédito/Débito</h4>
+<p></p> </div>
+</label>
+<label class="payment-option items-start" data-method="Pix">
+<div class="flex flex-col w-full">
+<div class="flex items-center">
+<input class="form-radio" name="paymentMethod" type="radio" value="Pix"/>
+<i class="fas fa-qrcode icon"></i>
+<div class="text-content">
+<h4>Pix</h4>
+</div>
+</div>
+<div class="hidden mt-2 w-full flex flex-col items-center" id="pix-details-container">
+<p class="text-xs text-black mb-1">Toque para copiar a chave pix</p>
+<div class="p-2 bg-gray-100 rounded-md text-sm w-full flex items-center justify-between cursor-pointer" id="pix-key-container">
+<span class="font-mono text-gray-700 text-sm pix-code-container" id="pix-key-display"></span>
+<button class="ml-2 text-gray-500 hover:text-gray-700" id="copy-pix-btn" title="Copiar Chave Pix">
+<i class="fas fa-copy"></i>
+</button>
+<span class="text-green-600 text-xs ml-2 hidden" id="copy-feedback">Copiado!</span>
+</div>
+<p class="text-xs text-black mt-4 mb-1">QR Code PIX</p>
+<div id="qrcode-container"></div>
+</div>
+</div>
+</label>
+</div>
+<div class="hidden mt-4 mb-6 p-4 border border-gray-300 rounded-lg bg-gray-50" id="troco-input-container">
+<label class="block text-gray-700 text-sm font-bold mb-2" for="trocoPara">
                     Troco para (R$):
                 </label>
-                <input type="number" id="trocoPara" step="0.01" min="0" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
-                <p class="text-gray-600 text-sm">
-                    Troco total: <span id="trocoTotalDisplay" class="font-bold text-red-600">R$ 0,00</span>
-                </p>
-            </div>
-
-            <button id="confirm-payment-method-btn" class="px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition w-full">
+<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2" id="trocoPara" min="0" step="0.01" type="number"/>
+<p class="text-gray-600 text-sm">
+                    Troco total: <span class="font-bold text-red-600" id="trocoTotalDisplay">R$ 0,00</span>
+</p>
+</div>
+<button class="px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition w-full" id="confirm-payment-method-btn">
                 Confirmar Pagamento
             </button>
-        </div>
-    </div>
-
-    <div id="address-input-modal" class="address-modal">
-        <div class="modal-content">
-            <span class="close-button" id="close-address-modal">&times;</span>
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Informe seus Dados</h3>
-             <div class="mb-4">
-                <label for="clientNameInput" class="block text-gray-700 text-sm font-bold mb-2">
+</div>
+</div>
+<div class="address-modal" id="address-input-modal">
+<div class="modal-content">
+<span class="close-button" id="close-address-modal">×</span>
+<h3 class="text-xl font-bold text-gray-800 mb-4">Informe seus Dados</h3>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-bold mb-2" for="clientNameInput">
                     Nome do Cliente:
                 </label>
-                <input type="text" id="clientNameInput" placeholder="Seu nome" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div class="mb-4">
-                <label for="contactInput" class="block text-gray-700 text-sm font-bold mb-2">
+<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="clientNameInput" placeholder="Seu nome" type="text"/>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-bold mb-2" for="contactInput">
                     Contato (Telefone):
                 </label>
-                <input type="tel" id="contactInput" placeholder="(99) 99999-9999" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div id="address-fields-container">
-                <div class="mb-4">
-                    <label for="neighborhoodSelect" class="block text-gray-700 text-sm font-bold mb-2">
+<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contactInput" placeholder="(99) 99999-9999" type="tel"/>
+</div>
+<div id="address-fields-container">
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-bold mb-2" for="neighborhoodSelect">
                         Bairro:
                     </label>
-                    <select id="neighborhoodSelect" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="">Selecione um bairro</option>
-                        </select>
-                </div>
-                <div class="mb-4">
-                    <label for="streetInput" class="block text-sm font-medium text-gray-700 mb-2">
+<select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="neighborhoodSelect">
+<option value="">Selecione um bairro</option>
+</select>
+</div>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-2" for="streetInput">
                         Rua:
                     </label>
-                    <input type="text" id="streetInput" placeholder="Nome da Rua" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-                <div class="mb-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <label for="numberInput" class="block text-gray-700 text-sm font-bold">
+<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="streetInput" placeholder="Nome da Rua" type="text"/>
+</div>
+<div class="mb-4">
+<div class="flex items-center justify-between mb-2">
+<label class="block text-gray-700 text-sm font-bold" for="numberInput">
                             Número:
                         </label>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="noNumberCheckbox" class="form-checkbox text-red-600">
-                            <label for="noNumberCheckbox" class="ml-2 text-gray-700 text-sm">Sem Número</label>
-                        </div>
-                    </div>
-                    <input type="number" inputmode="numeric" id="numberInput" placeholder="Número" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-                <div class="mb-6">
-                    <label for="referencePointInput" class="block text-gray-700 text-sm font-bold mb-2">
+<div class="flex items-center">
+<input class="form-checkbox text-red-600" id="noNumberCheckbox" type="checkbox"/>
+<label class="ml-2 text-gray-700 text-sm" for="noNumberCheckbox">Sem Número</label>
+</div>
+</div>
+<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="numberInput" inputmode="numeric" placeholder="Número" type="number"/>
+</div>
+<div class="mb-6">
+<label class="block text-gray-700 text-sm font-bold mb-2" for="referencePointInput">
                         Ponto de Referência (Opcional):
                     </label>
-                    <input type="text" id="referencePointInput" placeholder="Ex: Próximo à praça" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-            </div>
-            <button id="confirmAddressBtn" class="btn-confirm-green w-full py-2 px-4 rounded-full text-white font-bold transition duration-300">
+<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="referencePointInput" placeholder="Ex: Próximo à praça" type="text"/>
+</div>
+</div>
+<button class="btn-confirm-green w-full py-2 px-4 rounded-full text-white font-bold transition duration-300" id="confirmAddressBtn">
                 Confirmar Dados
             </button>
-        </div>
-    </div>
-    
-    <!-- NOVO: Modal para perguntar sobre adicionais -->
-    <div id="ask-pizza-extras-modal" class="message-modal">
-        <div class="modal-content">
-            <p class="text-lg font-semibold text-gray-800 mb-4" id="ask-extras-title"></p>
-            <p class="text-gray-600 mb-6"></p>
-            <div class="flex justify-center gap-4">
-                <button id="ask-extras-no-btn" class="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg font-bold hover:bg-gray-400 transition">Não, obrigado</button>
-                <button id="ask-extras-yes-btn" class="px-6 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">Sim, quero!</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- NOVO: Modal para construir adicionais da pizza -->
-    <div id="pizza-extras-builder-modal" class="modal">
-        <div class="modal-content builder-modal">
-            <span class="close-button" id="close-pizza-extras-builder-modal">&times;</span>
-            <h3 class="text-xl font-bold text-gray-800 mb-4" id="pizza-extras-builder-title"></h3>
-            <div id="pizza-extras-scope-buttons" class="flex flex-wrap gap-2 mb-4 border-b pb-4">
-                <!-- Botões de escopo serão inseridos aqui -->
-            </div>
-            <div id="pizza-extras-ingredients-container" class="mb-4 max-h-80 overflow-y-auto p-2"></div>
-            <div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg mt-4">
-                <span class="text-lg font-bold">Total da Pizza:</span>
-                <span id="pizza-extras-total-price" class="text-2xl font-bold text-red-600">R$ 0,00</span>
-            </div>
-            <button id="add-pizza-with-extras-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition w-full mt-4">
+</div>
+</div>
+<!-- NOVO: Modal para perguntar sobre adicionais -->
+<div class="message-modal" id="ask-pizza-extras-modal">
+<div class="modal-content">
+<p class="text-lg font-semibold text-gray-800 mb-4" id="ask-extras-title"></p>
+<p class="text-gray-600 mb-6"></p>
+<div class="flex justify-center gap-4">
+<button class="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg font-bold hover:bg-gray-400 transition" id="ask-extras-no-btn">Não, obrigado</button>
+<button class="px-6 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition" id="ask-extras-yes-btn">Sim, quero!</button>
+</div>
+</div>
+</div>
+<!-- NOVO: Modal para construir adicionais da pizza -->
+<div class="modal" id="pizza-extras-builder-modal">
+<div class="modal-content builder-modal">
+<span class="close-button" id="close-pizza-extras-builder-modal">×</span>
+<h3 class="text-xl font-bold text-gray-800 mb-4" id="pizza-extras-builder-title"></h3>
+<div class="flex flex-wrap gap-2 mb-4 border-b pb-4" id="pizza-extras-scope-buttons">
+<!-- Botões de escopo serão inseridos aqui -->
+</div>
+<div class="mb-4 max-h-80 overflow-y-auto p-2" id="pizza-extras-ingredients-container"></div>
+<div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg mt-4">
+<span class="text-lg font-bold">Total da Pizza:</span>
+<span class="text-2xl font-bold text-red-600" id="pizza-extras-total-price">R$ 0,00</span>
+</div>
+<button class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition w-full mt-4" id="add-pizza-with-extras-btn">
                 Confirmar Adicionais
             </button>
-        </div>
-    </div>
-
-    <footer class="bg-gray-800 text-white py-8 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                <div>
-                    <h3 class="xl font-bold mb-4">Sâmia</h3>
-                    <p class="text-gray-400">Bem-vindo à Samia! Um cardápio completo com pizzas especiais, hambúrgueres artesanais, petiscos crocantes, pastéis irresistíveis, sucos naturais e vitaminas deliciosas.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Horário de Funcionamento</h3>
-                    <p class="text-gray-400">De Segunda a Quarta: 17:30 - 23:00</p>
-                    <p class="text-gray-400">De Sexta a Domingo: 17:30 - 00:00</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Contato</h3>
-                    <p class="text-gray-400"><i class="fas fa-phone mr-2"></i> <span id="footer-phone"></span></p>
-                    <p class="text-gray-400"><i class="fas fa-envelope mr-2"></i> <span id="footer-email"></span></p>
-                    <div class="flex justify-center md:justify-start space-x-4 mt-2" id="social-links-container">
-                        </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-                <p class="mb-2">
-                    <a href="https://wa.me/5587996070638?text=Ol%C3%A1%20vi%20o%20card%C3%A1pio%20digital%20desenvolveu%20para%20Pizzaria%20S%C3%A2mia%20e%20fiquei%20interessado%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20o%20meu%20projeto" target="_blank" class="hover:text-white">Desenvolvido por Willian Soares</a>
-                </p>
-                <p>&copy; 2025 Sâmia. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- SCRIPTS -->
-    <script type="module">
+</div>
+</div>
+<footer class="bg-gray-800 text-white py-8 px-4">
+<div class="max-w-6xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+<div>
+<h3 class="xl font-bold mb-4">Sâmia</h3>
+<p class="text-gray-400">Bem-vindo à Samia! Um cardápio completo com pizzas especiais, hambúrgueres artesanais, petiscos crocantes, pastéis irresistíveis, sucos naturais e vitaminas deliciosas.</p>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-4">Horário de Funcionamento</h3>
+<p class="text-gray-400">De Segunda a Quarta: 17:30 - 23:00</p>
+<p class="text-gray-400">De Sexta a Domingo: 17:30 - 00:00</p>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-4">Contato</h3>
+<p class="text-gray-400"><i class="fas fa-phone mr-2"></i> <span id="footer-phone"></span></p>
+<p class="text-gray-400"><i class="fas fa-envelope mr-2"></i> <span id="footer-email"></span></p>
+<div class="flex justify-center md:justify-start space-x-4 mt-2" id="social-links-container">
+</div>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+<p class="mb-2">
+<a class="hover:text-white" href="https://wa.me/5587996070638?text=Ol%C3%A1%20vi%20o%20card%C3%A1pio%20digital%20desenvolveu%20para%20Pizzaria%20S%C3%A2mia%20e%20fiquei%20interessado%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20o%20meu%20projeto" target="_blank">Desenvolvido por Willian Soares</a>
+</p>
+<p>© 2025 Sâmia. Todos os direitos reservados.</p>
+</div>
+</div>
+</footer>
+<!-- SCRIPTS -->
+<script type="module">
         // Importa as funções do Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
@@ -3336,15 +3299,12 @@
 
         });
     </script>
-</body>
+<script src="js/codigo_corrigido.js"></script><script src="service-worker.js"></script></body>
 </html>
-
-
-    <!-- Código JavaScript corrigido para montagem de hambúrguer e adicionais -->
-    <script src="js/codigo_corrigido.js"></script>
-
-    <!-- Revisão do evento de instalação do PWA para garantir a exibição do banner -->
-    <script>
+<!-- Código JavaScript corrigido para montagem de hambúrguer e adicionais -->
+<script src="js/codigo_corrigido.js"></script>
+<!-- Revisão do evento de instalação do PWA para garantir a exibição do banner -->
+<script>
         window.addEventListener('beforeinstallprompt', (event) => {
             // Previne o comportamento padrão
             event.preventDefault();
@@ -3365,9 +3325,8 @@
             });
         });
     </script>
-
-    <!-- Código JavaScript de manipulação de pedidos com correção do erro de 'undefined' -->
-    <script>
+<!-- Código JavaScript de manipulação de pedidos com correção do erro de 'undefined' -->
+<script>
         // Função de adicionar hambúrguer ao pedido
         function addCustomBurgerToOrder() {
             const burgerOrder = {
@@ -3470,5 +3429,5 @@
             updateOrderSummary(orderItems);
         });
     </script>
-    </body>
-</html>
+
+
