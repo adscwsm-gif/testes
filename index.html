@@ -1510,30 +1510,71 @@ for (const categoryName in allBurgerIngredients) {
     }
 }
 
-                 if (!allRequiredCategoriesFilled) return;
- 
-burgerIngredientsContainer.querySelectorAll('.ingredient-category').forEach(categoryDiv => {
-    const categoryName = categoryDiv.dataset.categoryName;
-    categoryDiv.querySelectorAll('input:checked').forEach(input => {
-        const ingredientList = allBurgerIngredients[categoryName] || [];
-        const ingredient = ingredientList.find(ing => ing.id === input.value);
-        if (ingredient) {
-            selectedIngredients.push({ name: ingredient.name, category: ingredient.category });
-            finalTotal += ingredient.price;
-        }
-    });
-    categoryDiv.querySelectorAll('.quantity-display').forEach(display => {
-        const quantity = parseInt(display.textContent);
-        if (quantity > 0) {
-            const container = display.closest('[data-ingredient-id]');
-            const ingredientId = container.dataset.ingredientId;
-            const ingredientList = allBurgerIngredients[categoryName] || [];
-            const ingredient = ingredientList.find(ing => ing.id === ingredientId);
-            if (ingredient) {
-                selectedIngredients.push({ name: `${ingredient.name} (x${quantity})`, category: ingredient.category });
-                finalTotal += quantity * ingredient.price;
+function addCustomBurgerToOrder(baseBurgerItem) {
+    const selectedIngredients = [];
+    let finalTotal = currentBurgerBasePrice;
+
+    let allRequiredCategoriesFilled = true;
+    for (const categoryName in allBurgerIngredients) {
+        const isRequired = allBurgerIngredients[categoryName][0]?.isRequired || false;
+        if (isRequired) {
+            const categoryDiv = burgerIngredientsContainer.querySelector(`.ingredient-category[data-category-name="${categoryName}"]`);
+            const checkedInput = categoryDiv ? categoryDiv.querySelector('input:checked') : null;
+            let quantityCount = 0;
+            categoryDiv?.querySelectorAll('.quantity-display').forEach(d => quantityCount += parseInt(d.textContent));
+            if (!checkedInput && quantityCount === 0) {
+                showMessageModal(`Por favor, escolha uma opção na categoria "${capitalizeFirstLetter(categoryName)}".`);
+                allRequiredCategoriesFilled = false;
+                break;
             }
         }
+    }
+
+    if (!allRequiredCategoriesFilled) return;
+
+    burgerIngredientsContainer.querySelectorAll('.ingredient-category').forEach(categoryDiv => {
+        const categoryName = categoryDiv.dataset.categoryName;
+        categoryDiv.querySelectorAll('input:checked').forEach(input => {
+            const ingredientList = allBurgerIngredients[categoryName] || [];
+            const ingredient = ingredientList.find(ing => ing.id === input.value);
+            if (ingredient) {
+                selectedIngredients.push({ name: ingredient.name, category: ingredient.category });
+                finalTotal += ingredient.price;
+            }
+        });
+        categoryDiv.querySelectorAll('.quantity-display').forEach(display => {
+            const quantity = parseInt(display.textContent);
+            if (quantity > 0) {
+                const container = display.closest('[data-ingredient-id]');
+                const ingredientId = container.dataset.ingredientId;
+                const ingredientList = allBurgerIngredients[categoryName] || [];
+                const ingredient = ingredientList.find(ing => ing.id === ingredientId);
+                if (ingredient) {
+                    selectedIngredients.push({ name: `${ingredient.name} (x${quantity})`, category: ingredient.category });
+                    finalTotal += quantity * ingredient.price;
+                }
+            }
+        });
+    });
+
+    const burgerItem = {
+        id: Date.now() + Math.random(),
+        type: 'custom_burger',
+        name: 'Hambúrguer Personalizado',
+        price: finalTotal,
+        description: baseBurgerItem.description,
+        category: baseBurgerItem.category,
+        ingredients: selectedIngredients,
+        acceptsExtras: false
+    };
+
+    order.push(burgerItem);
+    updateOrderDisplay();
+    updateCartCount();
+    showTemporaryFeedback('Hambúrguer personalizado adicionado ao pedido!', 'bg-green-500');
+    burgerBuilderModal.style.display = 'none';
+}
+
     });
 });
 
