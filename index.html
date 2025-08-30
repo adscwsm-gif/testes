@@ -1495,61 +1495,48 @@
                  let finalTotal = currentBurgerBasePrice;
  
                  let allRequiredCategoriesFilled = true;
-                 for (const categoryName in allBurgerIngredients) {
-                     const isRequired = allBurgerIngredients[categoryName][0]?.isRequired || false;
-                     if (isRequired) {
--                        const categoryDiv = document.querySelector(`.ingredient-category[data-category-name="${categoryName}"]`);
--                        const checkedInput = categoryDiv.querySelector('input:checked');
-+                        const categoryDiv = burgerIngredientsContainer.querySelector(`.ingredient-category[data-category-name="${categoryName}"]`);
-+                        const checkedInput = categoryDiv ? categoryDiv.querySelector('input:checked') : null;
-                         let quantityCount = 0;
--                        categoryDiv.querySelectorAll('.quantity-display').forEach(d => quantityCount += parseInt(d.textContent));
-+                        categoryDiv?.querySelectorAll('.quantity-display').forEach(d => quantityCount += parseInt(d.textContent));
-                         if (!checkedInput && quantityCount === 0) {
-                             showMessageModal(`Por favor, escolha uma opção na categoria "${capitalizeFirstLetter(categoryName)}".`);
-                             allRequiredCategoriesFilled = false;
-                             break;
-                         }
-                     }
-                 }
+for (const categoryName in allBurgerIngredients) {
+    const isRequired = allBurgerIngredients[categoryName][0]?.isRequired || false;
+    if (isRequired) {
+        const categoryDiv = burgerIngredientsContainer.querySelector(`.ingredient-category[data-category-name="${categoryName}"]`);
+        const checkedInput = categoryDiv ? categoryDiv.querySelector('input:checked') : null;
+        let quantityCount = 0;
+        categoryDiv?.querySelectorAll('.quantity-display').forEach(d => quantityCount += parseInt(d.textContent));
+        if (!checkedInput && quantityCount === 0) {
+            showMessageModal(`Por favor, escolha uma opção na categoria "${capitalizeFirstLetter(categoryName)}".`);
+            allRequiredCategoriesFilled = false;
+            break;
+        }
+    }
+}
+
                  if (!allRequiredCategoriesFilled) return;
  
--                document.querySelectorAll('.ingredient-category').forEach(categoryDiv => {
-+                burgerIngredientsContainer.querySelectorAll('.ingredient-category').forEach(categoryDiv => {
-                     const categoryName = categoryDiv.dataset.categoryName;
-                     categoryDiv.querySelectorAll('input:checked').forEach(input => {
--                        const ingredient = allBurgerIngredients[categoryName].find(ing => ing.id === input.value);
-+                        const ingredientList = allBurgerIngredients[categoryName] || [];
-+                        const ingredient = ingredientList.find(ing => ing.id === input.value);
-                         if (ingredient) {
-                             selectedIngredients.push({ name: ingredient.name, category: ingredient.category });
-                             finalTotal += ingredient.price;
-                         }
-                     });
-                     categoryDiv.querySelectorAll('.quantity-display').forEach(display => {
-                         const quantity = parseInt(display.textContent);
-                         if (quantity > 0) {
-                             const container = display.closest('[data-ingredient-id]');
-                             const ingredientId = container.dataset.ingredientId;
--                            const ingredient = allBurgerIngredients[categoryName].find(ing => ing.id === ingredientId);
-+                            const ingredientList = allBurgerIngredients[categoryName] || [];
-+                            const ingredient = ingredientList.find(ing => ing.id === ingredientId);
-                             if (ingredient) {
-                                 selectedIngredients.push({ name: `${ingredient.name} (x${quantity})`, category: ingredient.category });
-                                 finalTotal += quantity * ingredient.price;
-                             }
-                         }
-                     });
-                 });
- 
-                 addToOrder({
-                     type: 'custom_burger', name: 'Hambúrguer Personalizado', price: finalTotal,
-                     description: `Monte seu hambúrguer.`, ingredients: selectedIngredients, category: baseBurgerItem.category
-                 }, addCustomBurgerBtn);
- 
-                 burgerBuilderModal.style.display = 'none';
-                 updatePromotionButtonVisibility();
-             }
+burgerIngredientsContainer.querySelectorAll('.ingredient-category').forEach(categoryDiv => {
+    const categoryName = categoryDiv.dataset.categoryName;
+    categoryDiv.querySelectorAll('input:checked').forEach(input => {
+        const ingredientList = allBurgerIngredients[categoryName] || [];
+        const ingredient = ingredientList.find(ing => ing.id === input.value);
+        if (ingredient) {
+            selectedIngredients.push({ name: ingredient.name, category: ingredient.category });
+            finalTotal += ingredient.price;
+        }
+    });
+    categoryDiv.querySelectorAll('.quantity-display').forEach(display => {
+        const quantity = parseInt(display.textContent);
+        if (quantity > 0) {
+            const container = display.closest('[data-ingredient-id]');
+            const ingredientId = container.dataset.ingredientId;
+            const ingredientList = allBurgerIngredients[categoryName] || [];
+            const ingredient = ingredientList.find(ing => ing.id === ingredientId);
+            if (ingredient) {
+                selectedIngredients.push({ name: `${ingredient.name} (x${quantity})`, category: ingredient.category });
+                finalTotal += quantity * ingredient.price;
+            }
+        }
+    });
+});
+
 
              function capitalizeFirstLetter(string) {
                  if (!string) return '';
